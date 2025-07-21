@@ -1,39 +1,35 @@
 ```typescript
 import { SupabaseClient } from '@supabase/supabase-js';
 
-interface LogCodexRunParams {
-  ticket_id: string;
-  prompt_template: string;
-  input_context: string;
-  output_code: string;
-  status: 'success' | 'error';
-  error: string | null;
-}
-
-async function logCodexRun(supabase: SupabaseClient, params: LogCodexRunParams): Promise<void> {
-  const { ticket_id, prompt_template, input_context, output_code, status, error } = params;
-
+async function logCodexRun(
+  supabase: SupabaseClient,
+  ticket_id: string,
+  prompt_template: string,
+  input_context: string,
+  output_code: string,
+  status: 'success' | 'error',
+  error: string | null
+): Promise<void> {
   try {
     const { data, error: insertError } = await supabase
       .from('codex_logs')
       .insert([
-        { 
-          ticket_id, 
-          prompt_template, 
-          input_context, 
-          output_code, 
-          status, 
-          error 
+        {
+          ticket_id,
+          prompt_template,
+          input_context,
+          output_code,
+          status,
+          error
         }
       ]);
 
     if (insertError) {
-      console.error('Error inserting codex run log:', insertError);
+      console.error('Error inserting codex log: ', insertError);
     }
-  } catch (err) {
-    console.error('Unexpected error logging codex run:', err);
+  } catch (error) {
+    console.error('Unexpected error: ', error);
   }
 }
 ```
-
-This function assumes that you have a `supabase` client available and that it's already initialized. It also assumes that the `codex_logs` table has columns that match the properties of the `LogCodexRunParams` interface. If any of these assumptions are incorrect, you'll need to adjust the function accordingly.
+In this function, we are using the Supabase client to insert a row into the `codex_logs` table. The row data is an object that includes all the parameters passed to the function. If there is an error during the insert operation, we log it to the console. We also catch any unexpected errors and log them as well.
