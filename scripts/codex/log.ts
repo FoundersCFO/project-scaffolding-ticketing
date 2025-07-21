@@ -20,16 +20,17 @@ async function logCodexRun(
           input_context,
           output_code,
           status,
-          error,
+          error
         },
       ]);
 
     if (insertError) {
-      console.error('Error inserting codex run log:', insertError);
+      console.error('Error inserting data: ', insertError);
     }
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('Unexpected error: ', error);
   }
 }
 ```
-In this function, we are using the `insert` method provided by the Supabase client to insert a new row into the `codex_logs` table. The data for the new row is provided as an object in the `insert` method. If there is an error during the insert operation, it is caught and logged to the console.
+
+In this function, we're using the Supabase client to insert a new row into the `codex_logs` table. The data for the new row is provided as an argument to the function. If there's an error during the insert operation, we log it to the console.
